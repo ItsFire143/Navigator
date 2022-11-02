@@ -1,19 +1,21 @@
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.Scanner;
 
 public class Car implements Runnable {
-    private int distance;
-    private int speed;
-    private int time = 0;
-    private int lastTime;
-    private int lastDistance;
-    private int averageSpeed;
+    private double distance;
+    private double speed;
+    private double time;
+    private double lastTime;
+    private double lastDistance;
+    private double averageSpeed;
 
     @Override
     public void run() {
         Scanner takeDistance = new Scanner(System.in);
         distance = takeDistance.nextInt();
         distance = distance*1000;
-        int distanceInput = distance;
+        double distanceInput = distance;
 
         while (distance > 0) {
             speed = (int) (Math.random()*110 + 1);
@@ -21,18 +23,23 @@ public class Car implements Runnable {
             time++;
             averageSpeed = distance / time;
             lastTime = distance / speed;
-            lastDistance = distanceInput - distance;
+            //lastDistance = distanceInput - distance;
+            DecimalFormat df = new DecimalFormat("#.#");
+            df.setRoundingMode(RoundingMode.CEILING);
+            //Double d = n.doubleValue();
+            //System.out.println(df.format());
+            /*
+
+            */
             if (distance < 0){
                 System.out.println("Приехали");
-                System.out.println("Средняя скорость: " + 0 + " м/с");
-                System.out.println("Оставшееся расстояние: " + 0 + " м");
+                System.out.println("Средняя скорость: " + 0 + " км/ч");
+                System.out.println("Оставшееся расстояние: " + 0 + " км");
                 System.out.println("Примерно осталось времени: " + 0 + " с");
-                System.out.println("Расстояние: " + 0);
             } else {
-                System.out.println("Средняя скорость: " + averageSpeed + " м/с");
-                System.out.println("Оставшееся расстояние: " + lastDistance + " м");
-                System.out.println("Примерно осталось времени: " + lastTime + " с");
-                System.out.println("Расстояние: " + distance);
+                System.out.println("Средняя скорость: " + df.format(averageSpeed * 1000/3600) + " км/ч");
+                System.out.println("Оставшееся расстояние: " + df.format(distance/1000) + " км");
+                System.out.println("Примерно осталось времени: " + df.format(lastTime) + " с");
             }
             try {
                 Thread.sleep(1000);
